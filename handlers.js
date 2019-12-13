@@ -1,36 +1,42 @@
 const orders = require('./OrdersRepository');
+//const user = require('./user');
 
 const getSingleOrder = (req, res) => {
-  const { id } = req.urlObject.query;
+  const { order_id } = req.urlObject.query;
 
-  if (!Number.isNaN(id)) {
-    const order = orders.getOrder(id);
+  if (!Number.isNaN(order_id)) {
+    const order = orders.getOrder(order_id);
 
     if (order) {
       res.writeHeader(200);
       res.end(JSON.stringify(order));
     } else {
-      // log and return 'song not found' error
-    }
+      res.writeHeader(404);
+      res.end(`order was not found`);    }
   } else {
-    // log and return 'id is isNaN' error
+    res.writeHeader(404);
+    res.end(`id is isNan`);
   }  
 };
 
 const getAllOrders = (req, res) => {
-  const allSongs = orders.getOrders();
+  const allOrders = orders.getOrders();
 
-  if (allSongs) {
+  if (allOrders) {
+   // user.status === 'admin' || 
       res.writeHeader(200);
-      res.end(JSON.stringify(allSongs));
+      res.end(JSON.stringify(allOrders));
   } else {
     res.writeHeader(404);
+    console.log(`Either not Admin nor orders don't exists`);
     res.end();
   }   
 };
 
 const createOrder = (req, res) => {
   let body = '';
+  let date;
+
   req.on('data', chunk => {
     body += chunk.toString();
   })
@@ -38,7 +44,8 @@ const createOrder = (req, res) => {
     const newDataItem = JSON.parse(body);
     orders.newOrder(newDataItem);
     res.writeHeader(200);
-    res.end('ok');
+    console.log(`New order was created !`);
+    res.end();
   });
 };
 
@@ -52,11 +59,13 @@ const editOrder = (req, res) => {
     const newDataItem = JSON.parse(body);
     if (newDataItem.id > orders.length) {
       res.writeHeader(404);
-      res.end(`no such order with such id: id`);
+      console.log(`No such order with such id:`+ order_id);
+      res.end();
     } else {
       orders.editExistedOrder(newDataItem);
       res.writeHeader(200);
-      res.end('your edit is done');
+      console.log(`Your edit is done`);
+      res.end();
   }
   });
 }
@@ -67,17 +76,26 @@ const editOrder = (req, res) => {
   if (!Number.isNaN(id)) {
       orders.deleteExistedOrder(id);
       res.writeHeader(200);
+      console.log(`Order was deleted`);
       res.end();
   } else {
     res.writeHeader(404);
-      res.end();
+    console.log(`Couldn't delete order with id` + order_id);
+    res.end();
   }  
 };
 
 const deleteAllOrders = (req, res) => {
-    orders.deleteAllExistedOrders();
-    res.writeHeader(200);
-    res.end();
+ // if (user.status === 'admin'){
+      orders.deleteAllExistedOrders();
+      res.writeHeader(200);
+      console.log(`All orders were deleted successfully`);
+      res.end();
+ // } else {
+      res.writeHeader(404);
+      console.log(`Couldn't delete the orders`);
+      res.end();
+// }
 };
 
 

@@ -12,28 +12,31 @@ module.exports = (req, res) => {
             if (urlObject.path.startsWith('/getSingleOrder')) {
                 getSingleOrder(req, res);
             }
-      
             if (urlObject.path.startsWith('/getAllOrders')) {
                 getAllOrders(req, res);
             }
             break;
-            case 'POST':
-                if (urlObject.path.startsWith('/createOrder')){
-                    createOrder(req, res);
-                }
-            case 'PUT':
-                    if (urlObject.path.startsWith('/editOrder')){
-                        editOrder(req, res);
-                    }
-            // Log the error 
+        case 'POST':
+            if (urlObject.path.startsWith('/createOrder')){
+                createOrder(req, res);
+            }
             break;
-            case 'DELETE':
-                if (urlObject.path.startsWith('/deleteOrder')){
-                    deleteOrder(req, res);
-                }
-                if (urlObject.path.startsWith('/deleteAllOrders')){
-                    deleteAllOrders(req, res);
-                }
-
+        case 'PUT':
+            if (urlObject.path.startsWith('/editOrder')){
+                editOrder(req, res);
+            } 
+            break;
+        case 'DELETE':
+            if (urlObject.path.startsWith('/deleteOrder')){
+                deleteOrder(req, res);
+            }
+            
+            if (urlObject.path.startsWith('/deleteAllOrders')){
+                deleteAllOrders(req, res);
+            }
+            break;
+            
+        default:
+                console.log(`The protocol you chose doesn't exist`);
     }
 };

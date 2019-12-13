@@ -1,5 +1,6 @@
 const { EventEmitter } = require('events');
 const ordersJson = require('./data/orders.json');
+const moment = require('moment');
 
 class OrdersRepository extends EventEmitter {
     constructor() {
@@ -7,10 +8,10 @@ class OrdersRepository extends EventEmitter {
       this._orders = ordersJson;
     }
   
-    getOrder(id) {
-      this.emit("singleOrder", this._orders[id-1]); // Fire event
+    getOrder(order_id) {
+      this.emit("singleOrder", this._orders[order_id-1]); // Fire event
   
-      return this._orders[id-1];
+      return this._orders[order_id-1];
     }
 
     getOrders() {
@@ -20,16 +21,18 @@ class OrdersRepository extends EventEmitter {
     }
 
     newOrder(newData) {
+      this._orders[newData.order_id - 1].date = newData.moment().format('DDD-MMM-YYYY, h:mm:ss a');
       this._orders.push(newData);
       this.emit("newSingleOrder", this._orders[this._orders.length-1]); 
       return this._orders[this._orders.length-1];
     }
 
     editExistedOrder(newData) {
-      this._orders[newData.id - 1].order = newData.order;
-      this._orders[newData.id - 1].artist = newData.artist;
-      this.emit("newEditedOrder", this._orders[newData.id - 1]); 
-      return this._orders[newData.id - 1];
+      this._orders[newData.order_id - 1].order = newData.order;
+      this._orders[newData.order_id - 1].name = newData.name;
+      this._orders[newData.order_id - 1].date = newData.date;
+      this.emit("newEditedOrder", this._orders[newData.order_id - 1]); 
+      return this._orders[newData.order_id - 1];
     }
 
     deleteExistedOrder(id) {

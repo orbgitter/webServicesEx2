@@ -1,17 +1,20 @@
 [
     {
-        "id": 1,
-        "order": "Never gonna give you up",
-        "artist": "Rick Astley"
+        "date": "02-12-2018",
+        "number of tickets": 2,
+        "name": "Rick Astley",
+        "order_id": 1
     },
     {
-        "id": 2,
-        "order": "Go west",
-        "artist": "Pet Shop Boys"
+        "date": "12-05-2019",
+        "number of tickets": 3,
+        "name": "Tom Levi",
+        "order_id": 2
     },
     {
-        "id": 3,
-        "order": "Heaven",
-        "artist": "Bryan Adams"
+        "date": "11-03-2019",
+        "number of tickets": 2,
+        "name": "Shahar Aharon",
+        "order_id": 3
     }
 ]

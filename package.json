@@ -6,7 +6,8 @@
   "dependencies": {
     "http": "^0.0.0",
     "moment": "^2.24.0",
-    "nodemon": "^2.0.2"
+    "nodemon": "^2.0.2",
+    "winston": "^3.2.1"
   },
   "devDependencies": {},
   "scripts": {
